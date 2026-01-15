@@ -67,6 +67,8 @@ https://github.com/decilya/test_for_vovo_laravel/blob/d2e6ed9e299ccffaee8f754f95
 # Получаем список товаров
 curl "http://localhost/api/v1/products"
 
+![Пример 1](https://github.com/decilya/test_for_vovo_laravel/blob/main/src/public/images/01_01.jpeg)
+
 # Фильтрация
 curl "http://localhost/api/v1/products?q=iPhone&price_from=50000&in_stock=true&sort=price_desc"
 
