@@ -52,6 +52,9 @@ $ docker compose exec app php artisan migrage
 Сервисный слой:
 - https://github.com/decilya/test_for_vovo_laravel/blob/main/src/app/Services/ProductService.php
 
+Запросы:
+- https://github.com/decilya/test_for_vovo_laravel/blob/main/src/app/Http/Requests/ProductFilterRequest.php
+
 Контроллеры АПИ:
 - https://github.com/decilya/test_for_vovo_laravel/blob/main/src/app/Http/Controllers/API/ProductController.php
 
