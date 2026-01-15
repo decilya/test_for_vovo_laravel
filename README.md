@@ -68,21 +68,28 @@ https://github.com/decilya/test_for_vovo_laravel/blob/d2e6ed9e299ccffaee8f754f95
 curl "http://localhost/api/v1/products"
 
 ![Пример 1](https://github.com/decilya/test_for_vovo_laravel/blob/main/src/public/images/01_01.jpeg)
+![Пример 2](https://github.com/decilya/test_for_vovo_laravel/blob/main/src/public/images/01_02.jpeg)
 
 # Фильтрация
 curl "http://localhost/api/v1/products?q=iPhone&price_from=50000&in_stock=true&sort=price_desc"
+![Пример 3](https://github.com/decilya/test_for_vovo_laravel/blob/main/src/public/images/02_01.jpeg)
 
 # По категории
 curl "http://localhost/api/v1/products?category_id=2"
+![Пример 4](https://github.com/decilya/test_for_vovo_laravel/blob/main/src/public/images/03_01.jpeg)
 
 # С пагинацией
 curl "http://localhost/api/v1/products?per_page=5&page=2"
+![Пример 5](https://github.com/decilya/test_for_vovo_laravel/blob/main/src/public/images/04_01.jpeg)
 
 # Поиск по названию
 curl "http://localhost/api/v1/products?q=Samsung"
+![Пример 6](https://github.com/decilya/test_for_vovo_laravel/blob/main/src/public/images/05_01.jpeg)
 
 # Фильтр по рейтингу
 curl "http://localhost/api/v1/products?rating_from=4.5"
+![Пример 7](https://github.com/decilya/test_for_vovo_laravel/blob/main/src/public/images/06_01.jpeg)
 
 # Фильтр по наличию
 curl "http://localhost/api/v1/products?in_stock=false"
+![Пример 8](https://github.com/decilya/test_for_vovo_laravel/blob/main/src/public/images/07_01.jpeg)
