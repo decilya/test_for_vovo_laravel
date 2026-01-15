@@ -7,12 +7,25 @@ use App\Http\Requests\ProductFilterRequest;
 use App\Services\ProductService;
 use Illuminate\Http\JsonResponse;
 
+/**
+ * Controller для работы с продуктами
+ */
 class ProductController extends Controller
 {
+    /**
+     * @param ProductService $productService
+     */
     public function __construct(
         protected ProductService $productService
     ) {}
 
+    /**
+     * HTTP-endpoint (например, GET /api/products),
+     * который возвращает список товаров с возможностью фильтрации и сортировки.
+     *
+     * @param ProductFilterRequest $request
+     * @return JsonResponse
+     */
     public function index(ProductFilterRequest $request): JsonResponse
     {
         $filters = $request->validated();
@@ -30,6 +43,6 @@ class ProductController extends Controller
                 'per_page' => $products->perPage(),
                 'total' => $products->total(),
             ],
-        ]);
+        ], 200); // Явно укажем для примера код, хотя по умолчанию и так будет 200.
     }
 }

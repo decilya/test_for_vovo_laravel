@@ -8,12 +8,24 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 
+/**
+ * Репозиторий продукта
+ */
 class ProductRepository implements ProductRepositoryInterface
 {
+    /**
+     * @param Product $model
+     */
     public function __construct(
         protected Product $model
     ) {}
 
+    /**
+     * @param array $filters
+     * @param string $sort
+     * @param int $perPage
+     * @return LengthAwarePaginator
+     */
     public function all(array $filters = [], string $sort = 'newest', int $perPage = 15): LengthAwarePaginator
     {
         $query = $this->model->newQuery();
@@ -24,6 +36,12 @@ class ProductRepository implements ProductRepositoryInterface
         return $query->paginate($perPage);
     }
 
+    /**
+     * @param array $filters
+     * @param string $sort
+     * @param int $perPage
+     * @return LengthAwarePaginator
+     */
     public function withCategory(array $filters = [], string $sort = 'newest', int $perPage = 15): LengthAwarePaginator
     {
         $query = $this->model->with('category');
@@ -34,6 +52,11 @@ class ProductRepository implements ProductRepositoryInterface
         return $query->paginate($perPage);
     }
 
+    /**
+     * @param Builder $query
+     * @param array $filters
+     * @return Builder
+     */
     protected function applyFilters(Builder $query, array $filters): Builder
     {
         // Поиск по подстроке в названии
@@ -70,6 +93,11 @@ class ProductRepository implements ProductRepositoryInterface
         return $query;
     }
 
+    /**
+     * @param Builder $query
+     * @param string $sort
+     * @return Builder
+     */
     protected function applySorting(Builder $query, string $sort): Builder
     {
         return match ($sort) {
@@ -81,19 +109,34 @@ class ProductRepository implements ProductRepositoryInterface
         };
     }
 
-    public function find(int $id)
+    /**
+     * @param int $id
+     * @return Product|\Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model|null
+     */
+    public function find(int $id): \Illuminate\Database\Eloquent\Model|\Illuminate\Database\Eloquent\Collection|Product|null
     {
         return $this->model->with('category')->findOrFail($id);
     }
 
-    public function create(array $data)
+    /**
+     * @param array $data
+     * @return mixed
+     * @throws \Throwable
+     */
+    public function create(array $data): mixed
     {
         return DB::transaction(function () use ($data) {
             return $this->model->create($data);
         });
     }
 
-    public function update(int $id, array $data)
+    /**
+     * @param int $id
+     * @param array $data
+     * @return mixed
+     * @throws \Throwable
+     */
+    public function update(int $id, array $data): mixed
     {
         return DB::transaction(function () use ($id, $data) {
             $product = $this->model->findOrFail($id);
@@ -102,6 +145,11 @@ class ProductRepository implements ProductRepositoryInterface
         });
     }
 
+    /**
+     * @param int $id
+     * @return bool
+     * @throws \Throwable
+     */
     public function delete(int $id): bool
     {
         return DB::transaction(function () use ($id) {

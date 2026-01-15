@@ -5,6 +5,9 @@ namespace App\Repositories\Contracts;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 
+/**
+ * Соглашение на реализацию ProductRepository
+ */
 interface ProductRepositoryInterface
 {
     public function all(array $filters = [], string $sort = 'newest', int $perPage = 15): LengthAwarePaginator;
