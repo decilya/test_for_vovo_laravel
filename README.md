@@ -43,14 +43,19 @@ $ docker compose exec app php artisan migrage
 # Код
 
 Модели:
+- https://github.com/decilya/test_for_vovo_laravel/blob/main/src/app/Models/Category.php
+- https://github.com/decilya/test_for_vovo_laravel/blob/main/src/app/Models/Product.php
 
 Репозитории:
+- https://github.com/decilya/test_for_vovo_laravel/blob/main/src/app/Repositories/Eloquent/ProductRepository.php
 
 Сервисный слой:
+- https://github.com/decilya/test_for_vovo_laravel/blob/main/src/app/Services/ProductService.php
 
 Контроллеры АПИ:
+- https://github.com/decilya/test_for_vovo_laravel/blob/main/src/app/Http/Controllers/API/ProductController.php
 
-Роут АПИ:
+https://github.com/decilya/test_for_vovo_laravel/blob/d2e6ed9e299ccffaee8f754f95f0a1277778e626/src/app/Http/Controllers/API/ProductController.php#L16
 
 В проекте реализован сервисный слой, репозитории, дата сидер, обращение к БД выполнено через транзакции, так же приложил выполнение к форме по ссылке. С моим опытом я уже сделал кучу подобных тестовых, их так же можно посмотреть на моем гитхаб.
 
