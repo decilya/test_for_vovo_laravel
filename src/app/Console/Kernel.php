@@ -2,18 +2,6 @@
 
 namespace App\Console;
 
-use App\Console\Commands\ParseCertificate;
-use App\Console\Commands\ParseFinData;
-use App\Console\Commands\ReportBigConsole;
-use App\Console\Commands\ReportConsole;
-use App\Jobs\CleanOldRedisData;
-use App\Jobs\ParseCertificateJob;
-use App\Jobs\ParseNewCalcBfo2400;
-use App\Jobs\ParserFin2024Job;
-use App\Jobs\ParserFinJob;
-use App\Jobs\ReportBigJob;
-use App\Jobs\ReportJob;
-use App\Parsers\ParserRunner;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\Log;
@@ -23,7 +11,20 @@ class Kernel extends ConsoleKernel
 {
     protected function schedule(Schedule $schedule): void
     {
-        // тут джобы для крона если надо
+        // Ежедневный анализ логов
+        $schedule->command('security:analyze --hours=24 --export')
+            ->dailyAt('02:00')
+            ->onOneServer();
+
+        // Очистка старых логов
+        $schedule->command('security:logs:clean')->weekly();
+
+        // Отчет администратору
+        if (config('app.env') === 'production') {
+            $schedule->command('security:analyze --hours=168 --notify')
+                ->weeklyOn(1, '8:00') // Каждый понедельник в 8:00
+                ->emailOutputTo('security@example.com');
+        }
     }
 
     protected function commands(): void

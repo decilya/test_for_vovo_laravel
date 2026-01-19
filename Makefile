@@ -85,3 +85,6 @@ ide-helper:
 	docker compose exec app php artisan ide-helper:generate
 	docker compose exec app php artisan ide-helper:meta
 	docker compose exec app php artisan ide-helper:models --nowrite
+test-memcached:
+	docker compose exec app php artisan make:command TestMemcached
+

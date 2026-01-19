@@ -7,6 +7,8 @@ volumes:
     driver: local
   redis-data:
     driver: local
+  memcached-data:
+    driver: local
 
 services:
   app:
@@ -36,6 +38,19 @@ services:
       - DB_USERNAME=${DB_USERNAME:-phper}
       - DB_PASSWORD=${DB_PASSWORD:-secret}
       - REDIS_HOST=redis
+      # Memcached переменные окружения
+      - MEMCACHED_HOST=memcached
+      - MEMCACHED_PORT=11211
+      - MEMCACHED_USERNAME=
+      - MEMCACHED_PASSWORD=
+      - MEMCACHED_PERSISTENT_ID=laravel_docker
+      - CACHE_DRIVER=memcached
+      - SESSION_DRIVER=memcached
+    depends_on:
+      - db
+      - redis
+      - memcached
+      - mailhog
 
   web:
     build:
@@ -50,6 +65,8 @@ services:
       - type: bind
         source: ./src
         target: /workspace
+    depends_on:
+      - app
 
   db:
     build:
@@ -79,11 +96,40 @@ services:
       - "6379:6379"
     volumes:
       - redis-data:/data
+    command: redis-server --appendonly yes
+
+  memcached:
+    image: memcached:alpine
+    container_name: laravel-memcached
+    ports:
+      - "11211:11211"
+    volumes:
+      - memcached-data:/data
+    environment:
+      - MEMCACHED_CACHE_SIZE=128
+      - MEMCACHED_MAX_ITEM_SIZE=10m
+    command:
+      - memcached
+      - -m 128              # 128MB памяти
+      - -p 11211           # порт
+      - -c 1024            # максимальное количество подключений
+      - -v                 # verbose режим для логов
+      - -l 0.0.0.0         # слушать все интерфейсы
+    healthcheck:
+      test: ["CMD", "sh", "-c", "echo stats | nc localhost 11211 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
 
   mailhog:
     image: mailhog/mailhog
     ports:
       - target: 8025
         published: ${MAILHOG_PUBLISHED_PORT:-8025}
+        protocol: tcp
+        mode: host
+      - target: 1025
+        published: ${MAILHOG_SMTP_PORT:-1025}
         protocol: tcp
         mode: host

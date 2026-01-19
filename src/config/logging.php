@@ -127,6 +127,29 @@ return [
             'path' => storage_path('logs/laravel.log'),
         ],
 
+        // для логов безопасности
+        'security' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/security.log'),
+            'level' => 'warning',
+            'days' => 30,
+            'permission' => 0644,
+            'formatter' => Monolog\Formatter\JsonFormatter::class,
+        ],
+
+        // Конфигурация для уведомлений
+        'security_notifications' => [
+            'enabled' => env('SECURITY_NOTIFICATIONS_ENABLED', true),
+            'slack_webhook' => env('SECURITY_SLACK_WEBHOOK'),
+            'telegram_bot_token' => env('SECURITY_TELEGRAM_BOT_TOKEN'),
+            'telegram_chat_id' => env('SECURITY_TELEGRAM_CHAT_ID'),
+            'email_to' => explode(',', env('SECURITY_EMAIL_TO', '')),
+            'threshold' => [
+                'high_risk' => 70,
+                'medium_risk' => 40,
+            ],
+        ],
+
     ],
 
 ];

@@ -22,6 +22,13 @@ RUN apt-get update \
     libzip-dev \
     libicu-dev \
     libonig-dev \
+    # Memcached зависимости
+    libmemcached-dev \
+    libssl-dev \
+    zlib1g-dev \
+    libz-dev \
+    libevent-dev \
+    pkg-config \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* \
   && locale-gen en_US.UTF-8 \
@@ -31,6 +38,10 @@ RUN apt-get update \
     pdo_mysql \
     zip \
     bcmath \
+    sockets \
+  # Установка расширения Memcached
+  && pecl install memcached \
+  && docker-php-ext-enable memcached \
   && composer config -g process-timeout 3600 \
   && composer config -g repos.packagist composer https://packagist.org
 
